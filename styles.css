@@ -1,2 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+}
 
-/* Your CSS Code here. */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.video {
+  width: 100%;
+  max-width: 765px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.player__button,
+.rewind,
+.forward {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+.volume,
+.playbackSpeed {
+  margin: 5px;
+}
+
+.progress {
+  position: relative;
+  width: 100%;
+  max-width: 765px;
+  height: 10px;
+  background: #ddd;
+  margin-top: 10px;
+}
+
+.progress__filled {
+  height: 100%;
+  background: #333;
+  width: 0;
+}
