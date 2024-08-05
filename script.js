@@ -1,47 +1,54 @@
-const video = document.querySelector('.video');
-const playerButton = document.querySelector('.player__button');
-const rewindButton = document.querySelector('.rewind');
-const forwardButton = document.querySelector('.forward');
-const volumeControl = document.querySelector('.volume');
-const playbackSpeedControl = document.querySelector('.playbackSpeed');
-const progressBar = document.querySelector('.progress');
-const progressFilled = document.querySelector('.progress__filled');
+document.addEventListener("DOMContentLoaded", function() {
+  const video = document.querySelector('.flex');
+  const playerButton = document.querySelector('.toggle');
+  const volumeRange = document.querySelector('[name="volume"]');
+  const playbackSpeedRange = document.querySelector('[name="playbackRate"]');
+  const rewindButton = document.querySelector('.rewind');
+  const forwardButton = document.querySelector('.skip-forward');
+  const progressBar = document.querySelector('.progress__filled');
 
-const togglePlayPause = () => {
-  if (video.paused) {
-    video.play();
-    playerButton.textContent = '❚ ❚';
-  } else {
-    video.pause();
-    playerButton.textContent = '►';
+  let isPlaying = false;
+
+  function togglePlay() {
+    if (isPlaying) {
+      video.pause();
+      playerButton.textContent = '►';
+    } else {
+      video.play();
+      playerButton.textContent = '❚❚';
+    }
+    isPlaying = !isPlaying;
   }
-};
 
-const updateVolume = () => {
-  video.volume = volumeControl.value;
-};
+  function handleVolumeChange() {
+    video.volume = this.value;
+  }
 
-const updatePlaybackSpeed = () => {
-  video.playbackRate = playbackSpeedControl.value;
-};
+  function handlePlaybackSpeedChange() {
+    video.playbackRate = this.value;
+  }
 
-const updateProgress = () => {
-  const percent = (video.currentTime / video.duration) * 100;
-  progressFilled.style.width = `${percent}%`;
-};
+  function rewind() {
+    video.currentTime -= 10;
+  }
 
-const rewind = () => {
-  video.currentTime -= 10;
-};
+  function forward() {
+    video.currentTime += 25;
+  }
 
-const forward = () => {
-  video.currentTime += 25;
-};
+  function updateProgressBar() {
+    const percent = (video.currentTime / video.duration) * 100;
+    progressBar.style.flexBasis = `${percent}%`;
+  }
 
-// Event Listeners
-playerButton.addEventListener('click', togglePlayPause);
-rewindButton.addEventListener('click', rewind);
-forwardButton.addEventListener('click', forward);
-volumeControl.addEventListener('input', updateVolume);
-playbackSpeedControl.addEventListener('input', updatePlaybackSpeed);
-video.addEventListener('timeupdate', updateProgress);
+  video.addEventListener('click', togglePlay);
+  playerButton.addEventListener('click', togglePlay);
+  volumeRange.addEventListener('input', handleVolumeChange);
+  playbackSpeedRange.addEventListener('input', handlePlaybackSpeedChange);
+  rewindButton.addEventListener('click', rewind);
+  forwardButton.addEventListener('click', forward);
+  video.addEventListener('timeupdate', updateProgressBar);
+
+  // Set initial progress bar
+  video.addEventListener('loadedmetadata', updateProgressBar);
+});
